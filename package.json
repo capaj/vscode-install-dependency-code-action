@@ -1,29 +1,32 @@
 {
-    "name": "awesome-vscode-extension-boilerplate",
-    "displayName": "Awesome VSCode Extension Boilerplate",
+    "name": "install-dependency-code-action",
+    "displayName": "Install Dependency Code Action",
     "version": "0.0.29",
-    "description": "An awesome vscode extension boilerplate",
+    "description": "install deps right from your editor, no need to switch to terminal",
     "publisher": "YuTengjing",
     "private": true,
     "preview": true,
     "author": {
-        "name": "YuTengjing",
-        "email": "ytj2713151713@gmail.com",
-        "url": "https://github.com/tjx666"
+        "name": "Jiri Spac",
+        "email": "capajj@gmail.com",
+        "url": "https://github.com/capaj/capaj"
     },
     "license": "SEE LICENSE IN LICENSE",
-    "homepage": "https://github.com/tjx666/awesome-vscode-extension-boilerplate/blob/master/README.md",
+    "homepage": "https://github.com/capaj/vscode-install-dependency-code-action/blob/master/README.md",
     "repository": {
         "type": "git",
-        "url": "https://github.com/tjx666/awesome-vscode-extension-boilerplate"
+        "url": "https://github.com/capaj/vscode-install-dependency-code-action"
     },
     "bugs": {
-        "url": "https://github.com/tjx666/awesome-vscode-extension-boilerplate/issues",
-        "email": "ytj2713151713@gmail.com"
+        "url": "https://github.com/capaj/vscode-install-dependency-code-action/issues",
+        "email": "capajj@gmail.com"
     },
     "keywords": [
-        "boilerplate",
-        "template"
+        "npm",
+        "dependencies",
+        "installing",
+        "editor",
+        "yarn"
     ],
     "categories": [
         "Other"
@@ -38,7 +41,7 @@
         {
             "url": "https://img.shields.io/badge/PRs-welcome-brightgreen.svg",
             "description": "PRs Welcome",
-            "href": "https://github.com/tjx666/awesome-vscode-extension-boilerplate/fork"
+            "href": "https://github.com/capaj/vscode-install-dependency-code-action/fork"
         }
     ],
     "activationEvents": [],
