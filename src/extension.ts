@@ -36,10 +36,11 @@ function getTypescriptModuleImportErrorsInRange(
     ) // Cannot find module
   })
 }
+const commandName = 'install-dependency-code-action.installDependency'
 
 export function activate(context: vscode.ExtensionContext) {
   const installDependency = vscode.commands.registerCommand(
-    'install-dependency-code-action.installDependency',
+    commandName,
     async (moduleName: string) => {
       try {
         const editor = vscode.window.activeTextEditor
@@ -127,7 +128,7 @@ class MissingDependencyCodeActionProvider implements vscode.CodeActionProvider {
   public async provideCodeActions(
     document: vscode.TextDocument,
     range: vscode.Range | vscode.Selection
-  ): Promise<vscode.CodeAction[] | undefined> {
+  ) {
     const moduleImportErrorDiagnostic = getTypescriptModuleImportErrorsInRange(
       document,
       range
@@ -154,6 +155,7 @@ class MissingDependencyCodeActionProvider implements vscode.CodeActionProvider {
         )
       ]
     }
+    return
   }
 
   private createInstallDependencyCodeAction(
@@ -167,7 +169,7 @@ class MissingDependencyCodeActionProvider implements vscode.CodeActionProvider {
     action.isPreferred = true
     action.diagnostics = [diagnostic]
     action.command = {
-      command: 'extension.installDependency',
+      command: commandName,
       title: `Install ${moduleName}`,
       arguments: [moduleName]
     }

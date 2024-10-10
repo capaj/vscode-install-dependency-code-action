@@ -6,17 +6,9 @@
 
 ![CI](https://github.com/tjx666/install-dependency-code-action/actions/workflows/ci.yml/badge.svg) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)](http://makeapullrequest.com) [![Github Open Issues](https://img.shields.io/github/issues/tjx666/install-dependency-code-action)](https://github.com/tjx666/install-dependency-code-action/issues) [![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg?style=flat-square)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
+![screenshot](./assets/Screenshot%20from%202024-10-10%2002-48-40.png)
+
 </div>
-
-## Development
-
-Install dependencies by:
-
-```shell
-pnpm install
-```
-
-Then run and debug extension like in [official documentation](https://code.visualstudio.com/api/get-started/your-first-extension)
 
 ## Features
 
@@ -26,3 +18,15 @@ https://github.com/user-attachments/assets/73b502f8-a462-483a-b783-d2eed3a10690
 
  - shows error info when install fails
  - shows success when install is succesful
+
+
+## Development
+
+Install dependencies by:
+
+```shell
+pnpm install
+```
+
+
+Then run and debug extension like in [official documentation](https://code.visualstudio.com/api/get-started/your-first-extension)
