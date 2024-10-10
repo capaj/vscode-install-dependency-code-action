@@ -4,7 +4,6 @@
     "version": "0.1.1",
     "description": "install deps right from your editor, no need to switch to terminal",
     "publisher": "capaj",
-    "preview": true,
     "author": {
         "name": "Jiri Spac",
         "email": "capajj@gmail.com",
