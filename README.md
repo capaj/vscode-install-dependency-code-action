@@ -14,6 +14,8 @@
 
 Detects an import of a missing module and offers to install it via npm/yarn/pnpm using the quick fix command.
 
+Open up this link for video showing the extension in action: 
+
 https://github.com/user-attachments/assets/73b502f8-a462-483a-b783-d2eed3a10690
 
  - shows error info when install fails
