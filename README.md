@@ -22,3 +22,7 @@ Then run and debug extension like in [official documentation](https://code.visua
 
 Detects an import of a missing module and offers to install it via npm/yarn/pnpm using the quick fix command.
 
+https://github.com/user-attachments/assets/73b502f8-a462-483a-b783-d2eed3a10690
+
+ - shows error info when install fails
+ - shows success when install is succesful
