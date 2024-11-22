@@ -32,3 +32,7 @@ pnpm install
 
 
 Then run and debug extension like in [official documentation](https://code.visualstudio.com/api/get-started/your-first-extension)
+
+## TODO
+
+- add ability to install all missing dependencies at once
