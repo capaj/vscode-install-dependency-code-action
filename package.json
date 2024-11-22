@@ -33,7 +33,7 @@
     "icon": "assets/logo.png",
     "packageManager": "pnpm@9.9.0",
     "engines": {
-        "vscode": "^1.90.0"
+        "vscode": "^1.95.0"
     },
     "badges": [
         {
