@@ -1,7 +1,9 @@
 {
     "name": "test-workspace",
+    "devDependencies": {
+      "debug": "^4.3.2"
+    },
     "dependencies": {
-        "dayjs": "^1.11.13",
-        "react-dom": "^18.3.1"
+       
     }
 }
