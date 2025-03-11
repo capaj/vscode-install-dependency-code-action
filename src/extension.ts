@@ -41,7 +41,7 @@ const commandName = 'install-dependency-code-action.installDependency'
 export function activate(context: vscode.ExtensionContext) {
   const installDependency = vscode.commands.registerCommand(
     commandName,
-    async (moduleName: string) => {
+    async (moduleName: string, isDev: boolean = false) => {
       try {
         const editor = vscode.window.activeTextEditor
         if (!editor) {
@@ -83,8 +83,10 @@ export function activate(context: vscode.ExtensionContext) {
           return
         }
 
+        const installFlag = isDev ? ' --save-dev' : ''
+
         exec(
-          `${packageManager} install ${moduleName}`,
+          `${packageManager} install${installFlag} ${moduleName}`,
           { cwd: packageJsonDir },
           (error, stdout, stderr) => {
             if (error) {
@@ -93,7 +95,7 @@ export function activate(context: vscode.ExtensionContext) {
               )
             } else {
               vscode.window.showInformationMessage(
-                `Successfully installed ${moduleName}: ${stdout}`
+                `Successfully installed ${moduleName}${isDev ? ' as dev dependency' : ''}: ${stdout}`
               )
             }
           }
@@ -148,32 +150,42 @@ class MissingDependencyCodeActionProvider implements vscode.CodeActionProvider {
     const isInstalled = await this.isModuleInstalled(document, moduleName)
 
     if (!isInstalled) {
-      return [
-        this.createInstallDependencyCodeAction(
-          moduleName,
-          moduleImportErrorDiagnostic
-        )
-      ]
+      return this.createInstallDependencyCodeActions(
+        moduleName,
+        moduleImportErrorDiagnostic
+      )
     }
     return
   }
 
-  private createInstallDependencyCodeAction(
+  private createInstallDependencyCodeActions(
     moduleName: string,
     diagnostic: vscode.Diagnostic
-  ): vscode.CodeAction {
-    const action = new vscode.CodeAction(
-      `Install missing dependency: ${moduleName}`,
+  ): vscode.CodeAction[] {
+    const regularDepAction = new vscode.CodeAction(
+      `Install dependency: ${moduleName}`,
       vscode.CodeActionKind.QuickFix
     )
-    action.isPreferred = true
-    action.diagnostics = [diagnostic]
-    action.command = {
+    regularDepAction.isPreferred = true
+    regularDepAction.diagnostics = [diagnostic]
+    regularDepAction.command = {
       command: commandName,
       title: `Install ${moduleName}`,
-      arguments: [moduleName]
+      arguments: [moduleName, false]
     }
-    return action
+
+    const devDepAction = new vscode.CodeAction(
+      `Install dev dependency: ${moduleName}`,
+      vscode.CodeActionKind.QuickFix
+    )
+    devDepAction.diagnostics = [diagnostic]
+    devDepAction.command = {
+      command: commandName,
+      title: `Install ${moduleName} as dev dependency`,
+      arguments: [moduleName, true]
+    }
+
+    return [regularDepAction, devDepAction]
   }
 
   private isModuleInstalled(
