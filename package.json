@@ -110,7 +110,7 @@
         "@types/lodash-es": "^4.17.12",
         "@types/mocha": "^10.0.10",
         "@types/node": "~22.15.27",
-        "@types/vscode": "1.100.0",
+        "@types/vscode": "1.96.0",
         "@vscode/test-electron": "^2.5.2",
         "@vscode/vsce": "^3.4.2",
         "@yutengjing/release": "^0.3.1",
