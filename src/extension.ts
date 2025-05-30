@@ -2,15 +2,30 @@ import * as vscode from 'vscode'
 import { exec } from 'child_process'
 import * as fs from 'fs'
 import * as path from 'path'
+import { memoize } from 'lodash-es'
 import { importStatementRegex } from './regex'
 
-async function findPackageJsonDir(startDir: string): Promise<string | null> {
+interface PackageJsonInfo {
+  dir: string
+  packageJson: Record<string, any>
+}
+
+// Consolidated function that finds package.json and returns both directory and parsed content
+function findPackageJsonInfo(startDir: string): PackageJsonInfo | null {
   let currentDir = startDir
 
   while (true) {
     const packageJsonPath = path.join(currentDir, 'package.json')
     if (fs.existsSync(packageJsonPath)) {
-      return currentDir
+      try {
+        const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
+        return { dir: currentDir, packageJson }
+      } catch (error) {
+        vscode.window.showWarningMessage(
+          `Failed to read package.json: ${error}`
+        )
+        return null
+      }
     }
 
     const parentDir = path.dirname(currentDir)
@@ -19,6 +34,15 @@ async function findPackageJsonDir(startDir: string): Promise<string | null> {
     }
     currentDir = parentDir
   }
+}
+
+// Memoized version for better performance
+const findPackageJsonInfoMemoized = memoize(findPackageJsonInfo)
+
+// Helper function that returns just the directory for backward compatibility
+async function findPackageJsonDir(startDir: string): Promise<string | null> {
+  const info = findPackageJsonInfoMemoized(startDir)
+  return info ? info.dir : null
 }
 
 // TODO memoize this maybe?
@@ -36,6 +60,13 @@ function getTypescriptModuleImportErrorsInRange(
     ) // Cannot find module
   })
 }
+
+// Memoized version for better performance
+const getTypescriptModuleImportErrorsInRangeMemoized = memoize(
+  getTypescriptModuleImportErrorsInRange,
+  (document: vscode.TextDocument, range: vscode.Range) =>
+    `${document.uri.toString()}:${range.start.line}:${range.start.character}-${range.end.line}:${range.end.character}`
+)
 const commandName = 'install-dependency-code-action.installDependency'
 
 export function activate(context: vscode.ExtensionContext) {
@@ -131,10 +162,8 @@ class MissingDependencyCodeActionProvider implements vscode.CodeActionProvider {
     document: vscode.TextDocument,
     range: vscode.Range | vscode.Selection
   ) {
-    const moduleImportErrorDiagnostic = getTypescriptModuleImportErrorsInRange(
-      document,
-      range
-    )
+    const moduleImportErrorDiagnostic =
+      getTypescriptModuleImportErrorsInRangeMemoized(document, range)
 
     if (!moduleImportErrorDiagnostic) {
       return // No need to provide code actions if there are no TypeScript errors
@@ -188,41 +217,21 @@ class MissingDependencyCodeActionProvider implements vscode.CodeActionProvider {
     return [regularDepAction, devDepAction]
   }
 
-  private isModuleInstalled(
+  private async isModuleInstalled(
     document: vscode.TextDocument,
     moduleName: string
   ): Promise<boolean> {
-    return new Promise((resolve) => {
-      let currentDir = path.dirname(document.uri.fsPath)
+    const info = findPackageJsonInfoMemoized(path.dirname(document.uri.fsPath))
 
-      while (true) {
-        const packageJsonPath = path.join(currentDir, 'package.json')
-        if (fs.existsSync(packageJsonPath)) {
-          try {
-            const packageJson = JSON.parse(
-              fs.readFileSync(packageJsonPath, 'utf8')
-            )
-            const dependencies = packageJson.dependencies || {}
-            const devDependencies = packageJson.devDependencies || {}
-            resolve(moduleName in dependencies || moduleName in devDependencies)
-            return
-          } catch (error) {
-            vscode.window.showWarningMessage(
-              `Failed to read package.json: ${error}`
-            )
-            resolve(false)
-            return
-          }
-        }
+    if (!info) {
+      return false
+    }
 
-        const parentDir = path.dirname(currentDir)
-        if (parentDir === currentDir) {
-          resolve(false)
-          return
-        }
-        currentDir = parentDir
-      }
-    })
+    const { packageJson } = info
+    const dependencies = packageJson.dependencies || {}
+    const devDependencies = packageJson.devDependencies || {}
+
+    return moduleName in dependencies || moduleName in devDependencies
   }
 }
 
