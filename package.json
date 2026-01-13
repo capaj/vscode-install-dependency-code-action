@@ -1,7 +1,7 @@
 {
     "name": "install-dependency-code-action",
     "displayName": "Install Dependency Code Action",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "install deps right from your editor, no need to switch to terminal",
     "publisher": "capaj",
     "author": {
@@ -31,7 +31,7 @@
     ],
     "main": "./out/src/extension.js",
     "icon": "assets/logo.png",
-    "packageManager": "pnpm@10.11.0",
+    "packageManager": "pnpm@10.28.0",
     "engines": {
         "vscode": "^1.96.0"
     },
@@ -105,30 +105,30 @@
         "publish:open-vsx": "ovsx publish --no-dependencies"
     },
     "devDependencies": {
-        "@types/chai": "^5.2.2",
-        "@types/glob": "^8.1.0",
+        "@types/chai": "^5.2.3",
+        "@types/glob": "^9.0.0",
         "@types/lodash-es": "^4.17.12",
         "@types/mocha": "^10.0.10",
-        "@types/node": "~22.15.27",
-        "@types/vscode": "1.96.0",
+        "@types/node": "~25.0.7",
+        "@types/vscode": "1.108.1",
         "@vscode/test-electron": "^2.5.2",
-        "@vscode/vsce": "^3.4.2",
+        "@vscode/vsce": "^3.7.1",
         "@yutengjing/release": "^0.3.1",
-        "chai": "^5.2.0",
-        "esbuild": "~0.25.5",
+        "chai": "^6.2.2",
+        "esbuild": "~0.27.2",
         "esbuild-visualizer": "^0.7.0",
-        "eslint": "^9.27.0",
-        "glob": "^11.0.2",
-        "lint-staged": "^16.1.0",
-        "mocha": "^11.5.0",
-        "ovsx": "^0.10.2",
-        "prettier": "^3.5.3",
-        "rimraf": "^6.0.1",
-        "stale-dep": "^0.8.2",
-        "tsx": "^4.19.4",
-        "typescript": "~5.8.3"
+        "eslint": "^9.39.2",
+        "glob": "^13.0.0",
+        "lint-staged": "^16.2.7",
+        "mocha": "^11.7.5",
+        "ovsx": "^0.10.8",
+        "prettier": "^3.7.4",
+        "rimraf": "^6.1.2",
+        "stale-dep": "^0.8.4",
+        "tsx": "^4.21.0",
+        "typescript": "~5.9.3"
     },
     "dependencies": {
-        "lodash-es": "^4.17.21"
+        "lodash-es": "^4.17.22"
     }
 }

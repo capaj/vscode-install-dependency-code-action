@@ -115,9 +115,15 @@ export function activate(context: vscode.ExtensionContext) {
         }
 
         const installFlag = isDev ? ' --save-dev' : ''
+        const workspaceFlag =
+          packageManager === 'pnpm' &&
+          packageJsonDir === workspacePath &&
+          fs.existsSync(path.join(workspacePath, 'pnpm-workspace.yaml'))
+            ? ' -w'
+            : ''
 
         exec(
-          `${packageManager} install${installFlag} ${moduleName}`,
+          `${packageManager} install${workspaceFlag}${installFlag} ${moduleName}`,
           { cwd: packageJsonDir },
           (error, stdout, stderr) => {
             if (error) {
